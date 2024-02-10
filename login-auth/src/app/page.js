@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { comparePassword, hashedPassword } from "./Hashing";
 
 export default function Home() {
   const storedData = JSON.parse(localStorage.getItem("userInfo")) || undefined;
@@ -48,6 +49,19 @@ export default function Home() {
     }));
   };
 
+  async function signUpUser(username, password) {
+    try {
+      const hashed = await hashedPassword(password);
+      data.userName = username;
+      data.password = hashed;
+      console.log(data);
+      localStorage.setItem("userInfo", JSON.stringify(data));
+    } catch (error) {
+      console.error("Error signing up user:", error);
+      throw new Error("Error signing up user");
+    }
+  }
+
   const handleRegister = (event) => {
     event.preventDefault();
 
@@ -71,12 +85,14 @@ export default function Home() {
             userData.password
           )
         ) {
-          data.userName = userData.userName;
-          data.password = userData.password;
-          localStorage.setItem("userInfo", JSON.stringify(data));
-          setDisplay((prev) => ({ ...prev, text: "" }));
-          console.log(`name : ${data.userName}, pass : ${data.password}`);
-          setDisplay((prev) => ({ ...prev, register: false, success: true }));
+          signUpUser(userData.userName, userData.password); //calling singUpUser function
+
+          setDisplay((prev) => ({
+            ...prev,
+            register: false,
+            success: true,
+            text: "",
+          }));
           setUserData({ userName: "", password: "", confirmPassword: "" });
         } else if (userData.userName.length < 3) {
           setDisplay((prev) => ({
@@ -105,6 +121,31 @@ export default function Home() {
     }, 2000);
   };
 
+  async function signInUser(username, password) {
+    try {
+      const hashedPassword = storedData.password; // Get hashed password from localStorage
+      const match = await comparePassword(password, hashedPassword);
+      if (storedData.userName === username && match) {
+        setDisplay((prev) => ({
+          ...prev,
+          text: "",
+          btn: false,
+        }));
+        alert("logged in");
+        setData({ userName: "", password: "" });
+      } else {
+        setDisplay((prev) => ({
+          ...prev,
+          text: "You entered Incorrect data, you can click the sign up button below to create an account with us",
+          btn: true,
+        }));
+      }
+    } catch (error) {
+      console.error("Error signing in user:", error);
+      throw new Error("Error signing in user");
+    }
+  }
+
   const handleLoginBtn = (e) => {
     e.preventDefault();
     storedData.length === 0 ? alert("hello") : console.log(storedData);
@@ -117,24 +158,7 @@ export default function Home() {
     setTimeout(() => {
       if (data.userName !== "" && data.password !== "") {
         if (storedData !== undefined) {
-          if (
-            storedData.userName === data.userName &&
-            storedData.password === data.password
-          ) {
-            setDisplay((prev) => ({
-              ...prev,
-              text: "",
-              btn: false,
-            }));
-            alert("logged in");
-            setData({ userName: "", password: "" });
-          } else {
-            setDisplay((prev) => ({
-              ...prev,
-              text: "You entered Incorrect data, you can click the sign up button below to create an account with us",
-            }));
-            setDisplay((prev) => ({ ...prev, btn: true }));
-          }
+          signInUser(data.userName, data.password); //calling singInUser function
         } else {
           setDisplay((prev) => ({
             ...prev,
@@ -222,8 +246,8 @@ export default function Home() {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             className=" backIcon"
-            onClick={()=> {
-              setDisplay((prev)=> ({...prev, login : false, home : true}))
+            onClick={() => {
+              setDisplay((prev) => ({ ...prev, login: false, home: true }));
             }}
           >
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -294,7 +318,7 @@ export default function Home() {
                 height="28.80"
                 rx="14.4"
                 fill="#4cd655"
-                strokewidth="0"
+                strokeWidth="0"
               ></rect>
             </g>
             <g
