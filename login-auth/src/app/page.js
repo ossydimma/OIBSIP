@@ -1,8 +1,12 @@
 "use client";
 import { useState } from "react";
 import { comparePassword, hashedPassword } from "./Hashing";
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
+
+  const router = useRouter()
+
   const storedData = JSON.parse(localStorage.getItem("userInfo")) || undefined;
 
   const [data, setData] = useState({
@@ -38,6 +42,7 @@ export default function Home() {
       text: "",
     }));
   };
+  
   const handleLogin = (event) => {
     event.preventDefault();
     setDisplay((prev) => ({
@@ -54,7 +59,6 @@ export default function Home() {
       const hashed = await hashedPassword(password);
       data.userName = username;
       data.password = hashed;
-      console.log(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
       console.error("Error signing up user:", error);
@@ -131,7 +135,7 @@ export default function Home() {
           text: "",
           btn: false,
         }));
-        alert("logged in");
+        router.push('/home')
         setData({ userName: "", password: "" });
       } else {
         setDisplay((prev) => ({
@@ -148,7 +152,6 @@ export default function Home() {
 
   const handleLoginBtn = (e) => {
     e.preventDefault();
-    storedData.length === 0 ? alert("hello") : console.log(storedData);
     e.target.innerHTML = `
      <div class='loaderDiv'>
       <span class="loader"></span>
@@ -356,6 +359,7 @@ export default function Home() {
           </button>
         </section>
       )}
+      
     </main>
   );
 }

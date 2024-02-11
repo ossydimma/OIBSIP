@@ -161,6 +161,10 @@ form > input {
 .backIcon {
   cursor: pointer;
 }
+.name {
+  font-weight: 900;
+  font-size: 24px;
+}
 
 @media (max-width: 860px) {
   main {
