@@ -81,12 +81,14 @@ li {
     padding-top: 20px;
     
 }
-.task-box input {
+.task-box input, p {
     width: 100px;
     height: 40px;
     border-radius: 20px;
     background-color: #fff;
-    flex: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 17px;
     text-align: center;
     margin-right: 10px;

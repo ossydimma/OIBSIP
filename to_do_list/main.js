@@ -11,12 +11,17 @@ addTask.addEventListener("click", addItem);
 let pendingTask = JSON.parse(localStorage.getItem("storedTask")) || [];
 let completedTask = JSON.parse(localStorage.getItem("doneTask")) || [];
 
-window.addEventListener("load", () =>
-  pendingTask.length !== 0 ? displayTask() : ""
-);
+window.addEventListener("load", () => {
+  if ((pendingTask.length !== 0 )) {
+    displayTask()
+  }
+  if (completedTask !== 0) {
+    handleCompletedTasks()
+  }
+
+});
 
 function addItem() {
-  // pendingTask.length > 4 ? tasksContainer.style.overflowY = 'scroll' : tasksContainer.style.overflowY = 'hidden';
 
   //confirming if input contain a value
 
@@ -32,24 +37,40 @@ function addItem() {
 }
 
 const handleCompletedTasks = ()=> {
-    let lastest = 'hello';
-    completedTask.push(lastest);
-    localStorage.setItem("doneTask", JSON.stringify(completedTask));
+  // localStorage.clear()
+  // {store, location,  parent, element, child }
+  // completedTask = JSON.parse(localStorage.getItem("doneTask")) 
 
-    completed.hasChildNodes ? (tasksContainer.innerHTML = "") : "";
+    completed.hasChildNodes ? (completed.innerHTML = "") : "";
+    console.log(completedTask)
     completedTask.forEach((task) => {
       //creating a div element for new tasks
       const taskBox = document.createElement("div");
       const taskText = document.createElement("div");
-      const newTask = document.createElement("input");
+      const newTask = document.createElement("p");
       const btns = document.createElement("section");
   
       taskBox.classList.add("task-box");
       taskText.classList.add("task-text");
   
-      addButton(newTask, taskBox, btns);
-  
-      newTask.value = task;
+      // addButton(newTask, taskBox, btns);
+      // const deleteBtn = document.createElement("button");
+      // deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+      // deleteBtn.classList.add("delete-btn");
+      // btns.appendChild(deleteBtn);
+
+
+      // deleteBtn.addEventListener("click", () => {
+      //   // localStorage.clear()
+      //   taskBox.remove();
+      //   completedTask = completedTask.filter((del) => del !== newTask.innerText);
+      //   localStorage.setItem("doneTask", JSON.stringify(completedTask));
+      //   // completedTask.length < 1 ? localStorage.removeItem('doneTask') : "";
+
+      //   console.log(pendingTask);
+      // });
+      handleDelete(newTask, taskBox, btns, completedTask, 'doneTask')
+      newTask.innerText = task;
   
       // appending Element
       taskText.appendChild(newTask);
@@ -64,55 +85,54 @@ const handleCompletedTasks = ()=> {
 
 }
 
-// function handleDeleteBtn(store, location, item1, item2, item3) {
-//     const deleteBtn = document.createElement("button");
-//     deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-//     deleteBtn.classList.add("delete-btn");
-//     item3.appendChild(deleteBtn);
-//     deleteBtn.addEventListener("click", () => {
-//       item2.remove();
-//       store = store.filter((del) => del !== item1.value);
-//       store.length < 1 ? localStorage.removeItem(location) : "";
-  
-//       console.log(store);
-//     });
-// }
+const handleDelete = (newTask, taskBox, btns, store, location) => {
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+  deleteBtn.classList.add("delete-btn");
+  btns.appendChild(deleteBtn);
+
+
+  deleteBtn.addEventListener("click", () => {
+    // localStorage.clear()
+    taskBox.remove();
+    store = store.filter((del) => del !== newTask.value);
+    localStorage.setItem(`${location}`, JSON.stringify(store));
+    // store.length < 1 ? localStorage.removeItem(`${location}`) : "";
+
+    // console.log(pendingTask);
+  });
+}
+
+
 //  creating a check button
-const btns = document.createElement("div");
-function addButton(item1, item2, item3, box) {
+function addButton(newTask, taskBox, btns) {
   //creating a check button
   const checkBtn = document.createElement("button");
   checkBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
   checkBtn.classList.add("check-btn");
-  item3.appendChild(checkBtn);
+  btns.appendChild(checkBtn);
   checkBtn.addEventListener("click", function () {
-    // work here
-    // item1.style.textDecoration = "line-through";
-    // handleCompletedTasks()
-    // item2.remove();
-    // pendingTask = pendingTask.filter((del) => del !== item1.value);
+    newTask.style.textDecoration = "line-through";
+    taskBox.remove();
+    pendingTask = pendingTask.filter((del) => del !== newTask.value);
+    localStorage.setItem("storedTask", JSON.stringify(pendingTask));
+
     // pendingTask.length < 1 ? localStorage.removeItem("storedTask") : "";
+
+    completedTask.push(newTask.value);
+    localStorage.setItem("doneTask", JSON.stringify(completedTask));
+    handleCompletedTasks()
     // completed.appendChild(box);
   });
 
 
   //creating a delete button
-  const deleteBtn = document.createElement("button");
-  deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-  deleteBtn.classList.add("delete-btn");
-  item3.appendChild(deleteBtn);
-  deleteBtn.addEventListener("click", () => {
-    // localStorage.clear()
-    item2.remove();
-    pendingTask = pendingTask.filter((del) => del !== item1.value);
-    pendingTask.length < 1 ? localStorage.removeItem("storedTask") : "";
 
-    console.log(pendingTask);
-  });
+  handleDelete(newTask, taskBox, btns, pendingTask, 'storedTask')
 }
 
 function displayTask() {
-
+  pendingTask = JSON.parse(localStorage.getItem('storedTask'))
   tasksContainer.hasChildNodes ? (tasksContainer.innerHTML = "") : "";
   pendingTask.forEach((task) => {
     //creating a div element for new tasks
@@ -124,7 +144,7 @@ function displayTask() {
     taskBox.classList.add("task-box");
     taskText.classList.add("task-text");
 
-    addButton(newTask, taskBox, btns, taskBox);
+    addButton(newTask, taskBox, btns);
 
     newTask.value = task;
 
