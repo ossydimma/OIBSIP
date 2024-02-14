@@ -57,17 +57,36 @@ li {
   background-color: green;
   cursor: pointer;
 }
+
 .hero {
   display: flex;
   width: 90vw;
-  overflow-y: scroll;
   justify-content: space-between;
-  margin: 90px auto 0;
+  margin: 20px auto 0;
   padding: 0 30px 0 20px;
-  height: 50vh;
 }
 
 /*  styling element created via js*/
+
+
+
+.task-title {
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  background: #000;
+  color: azure;
+  padding: 15px 20px;
+  border-radius: 10px;
+}
+
+#tasks-container, #completed-tasks {
+  overflow-y: scroll;
+  max-height: 55vh;
+  padding: 0 15px;
+  width: 100%;
+}
+
 
 .task-box {
   height: 80px;
@@ -78,6 +97,7 @@ li {
   box-shadow: 1px 1px 5px;
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
   gap: 15px;
   margin: 15px auto;
   padding: 0 20px;
@@ -131,4 +151,26 @@ li {
 .delete-btn:hover {
   color: #f3f3f3;
   background-color: red;
+}
+
+
+@media (max-width : 870px) {
+
+  body {
+    background: url(images/tasks.jpg) no-repeat center center/auto;
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .hero {
+    flex-direction: column;
+    gap: 50px;
+    width: 85vw;
+    margin:  20 auto;
+    padding: 0 0 50px 0 ;
+  }
+  .task-text {
+    width: 120px;
+    
+  }
+
 }
