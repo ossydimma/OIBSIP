@@ -54,7 +54,7 @@ const handleCompletedTasks = () => {
 
     taskBox.style.justifyContent = "center";
 
-    handleDeletBtn(newTask, taskBox, btns, completedTask, "doneTask");
+    handleDeletBtn(newTask, taskBox, btns, completedTask);
 
     newTask.innerText = task;
     // appending Element
@@ -66,7 +66,7 @@ const handleCompletedTasks = () => {
   });
 };
 
-const handleDeletBtn = (newTask, taskBox, btns, store, location) => {
+const handleDeletBtn = (newTask, taskBox, btns, store, ) => {
   const deleteBtn = document.createElement("button");
   deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
   deleteBtn.classList.add("delete-btn");
@@ -75,12 +75,13 @@ const handleDeletBtn = (newTask, taskBox, btns, store, location) => {
   deleteBtn.addEventListener("click", () => {
     taskBox.remove();
     if (store === pendingTask) {
-      store = store.filter((del) => del.title !== newTask.innerText);
-    } else
-      store === pendingTask
-        ? (store = store.filter((del) => del.title !== newTask.innerText))
-        : (store = store.filter((del) => del !== newTask.innerText));
-    localStorage.setItem(`${location}`, JSON.stringify(store));
+      pendingTask = pendingTask.filter((del) => del.title !== newTask.innerText);
+      localStorage.setItem(`storedTask`, JSON.stringify(pendingTask));
+    } else {
+      completedTask = completedTask.filter((del) => del !== newTask.innerText)
+      localStorage.setItem(`doneTask`, JSON.stringify(completedTask));
+
+    }
   });
 };
 
@@ -102,7 +103,7 @@ function addButton(newTask, taskBox, btns) {
     handleCompletedTasks();
   });
 
-  handleDeletBtn(newTask, taskBox, btns, pendingTask, "storedTask");
+  handleDeletBtn(newTask, taskBox, btns, pendingTask);
 }
 
 function displayTask() {
