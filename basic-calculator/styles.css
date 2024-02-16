@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    box-sizing: border-box;
+}
+#container {
+    border-radius: 18px;
+    width: 30%;
+    height: 80vh;
+    margin: 70px auto 0 ;
+    background-color: black;
+    padding-top: 20px;
+    
+}
+
+
+#display-div {
+    width: 90%;
+    margin: 10px auto 2px ;
+    height: 4em;
+
+
+}
+#display {
+    border: 2px solid rgb(165, 162, 162);
+    color:black;
+    width: 95%;
+    height: 100%;
+    font-weight: 900;
+    font-size: 1.2em;
+    text-align: right;
+    pointer-events: none;
+    padding: 0 2.5%;
+    
+}
+section {
+    margin: 30px 20px;
+    display: grid;
+    grid-template: repeat(5, 1fr) / repeat(4, 1fr);
+    grid-gap: 15px;
+    
+}
+.button, .button1, .opreator  {
+    border: 1px solid #111;
+    background: rgb(165, 162, 162) ;
+    padding: 15px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #EEE;
+    border-radius: 5px;
+    box-shadow: 0 0  5px;
+}
+.button:hover, .button1:hover, .opreator:hover {
+    background: rgb(59, 56, 56);
+}
+#bC {
+    grid-column: span 3;
+    background: chocolate;
+}
+#bplus {
+    background: chocolate;
+}
+.active {
+    background-color: aqua;
+}
+
+
+@media (max-width : 880px) {
+    #container {
+        border-radius: 18px;
+        width: 50%;
+        
+    }
+}
+@media (max-width : 520px) {
+    #container {
+        border-radius: 18px;
+        width: 80%;
+        
+    }
+}
