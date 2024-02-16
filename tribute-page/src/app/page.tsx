@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay} from "swiper/modules";
 import "swiper/swiper-bundle.css";
+import TimeLine from "./component/TimeLine";
 
 export default function Home() {
   const navPrevRef = useRef<HTMLDivElement | null>(null);
@@ -21,7 +22,7 @@ export default function Home() {
             alt="martin luther"
             className=" rounded-t-xl "
           />
-          <section className=" bg-[rgba(95,58,58,0.90)] text-white rounded-b-xl">
+          <section className=" bg-[rgba(95,58,58,0.90)] text-white rounded-b-xl pb-20">
             <div className=" text-center drop-shadow-md py-3">
               <h2 className=" text-4xl">Martin Luther King, Jr.</h2>
               <p>
@@ -63,26 +64,11 @@ export default function Home() {
                 <div className="swiper-button-next pr-10 " ref={navNextRef}/>
               </Swiper>
             </div>
-            <section className=" bg-[rgb(62,41,41)] w-[85%] mx-auto shadow-white shadow-md">
+            <section className=" bg-[rgb(62,41,41)] w-[85%] mx-auto shadow-white shadow-md ">
               <h2 className=" text-4xl text-center pt-2">Here's a time line of Martin Luther King, Jr.:</h2>
-              <ul className="">
-                <p className=" bg-black w-[95%] text-center mx-auto py-1 text-lg rounded-xl my-2">Youth</p>
-                {data.youth.map((item) => (
-                  <li className=" list-disc text-sm w-[85%] mx-auto">
-                    <span>{item.year}</span>
-                    <span>{item.article}</span>
-                  </li>
-                ))}
-              </ul>
-              <ul className="">
-                <p className=" bg-black w-[95%] text-center mx-auto py-1 text-lg rounded-xl my-2">Early Activism</p>
-                {data.activism.map((item) => (
-                  <li className=" list-disc text-sm w-[85%] mx-auto">
-                    <span>{item.year}</span>
-                    <span>{item.article}</span>
-                  </li>
-                ))}
-              </ul>
+              <TimeLine text = 'Youth' store={data.youth} />
+              <TimeLine text = 'Early Activism' store={data.activism} />
+              <TimeLine text = 'Legacy' store={data.legacy} />
 
             </section>
           </section>

@@ -1,42 +1,29 @@
-import data from "../../data.json";
 
 interface arrayType {
   year : string;
   article : string;
 }
 
-interface quotesType {
-  quote : string
-}
-interface dataType {
-    youth : arrayType[];
-    activism : arrayType[];
-    legacy : arrayType[];
-    quotes : quotesType[]
-}
-
-
 interface timeType {
    text : string;
-   location : dataType;
-   array : arrayType[]
+   store : arrayType[]
 }
 
-const TimeLine = ({text, location, array} : timeType) => {
+const TimeLine = ({text, store} : timeType) => {
+  // const [timeLine, setTimeLine ] = useState<arrayType[]>( store)
+  const timeLine = store
   return (
-    <div>
-      <ul className="">
+      <ul >
         <p className=" bg-black w-[95%] text-center mx-auto py-1 text-lg rounded-xl my-2">
           {text}
         </p>
-        {/* {data.location.map((item : arrayType ) => (
+        {timeLine.map(( item ) => (
           <li className=" list-disc text-sm w-[85%] mx-auto">
             <span>{item.year}</span>
             <span>{item.article}</span>
           </li>
-        ))} */}
+        ))}
       </ul>
-    </div>
   );
 };
 
