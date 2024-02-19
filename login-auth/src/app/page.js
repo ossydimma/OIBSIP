@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import { comparePassword, hashedPassword } from "./Hashing";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import { Icon } from "./component/Icon";
 
 export default function Home() {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const storedData = JSON.parse(localStorage.getItem("userInfo")) || undefined;
 
@@ -30,6 +30,11 @@ export default function Home() {
     btn: false,
   });
 
+  const [passwordType, setPasswordType] = useState({
+    pass: "password",
+    confirmPass: "password",
+  });
+
   // functions
 
   const handleSIgnup = (event) => {
@@ -41,8 +46,9 @@ export default function Home() {
       register: true,
       text: "",
     }));
+    setPasswordType((prev) => ({ ...prev, pass: "password" }));
   };
-  
+
   const handleLogin = (event) => {
     event.preventDefault();
     setDisplay((prev) => ({
@@ -52,6 +58,7 @@ export default function Home() {
       register: false,
       text: "",
     }));
+    setPasswordType((prev) => ({ ...prev, pass: "password" }));
   };
 
   async function signUpUser(username, password) {
@@ -135,7 +142,7 @@ export default function Home() {
           text: "",
           btn: false,
         }));
-        router.push('/home')
+        router.push("/home");
         setData({ userName: "", password: "" });
       } else {
         setDisplay((prev) => ({
@@ -162,6 +169,7 @@ export default function Home() {
       if (data.userName !== "" && data.password !== "") {
         if (storedData !== undefined) {
           signInUser(data.userName, data.password); //calling singInUser function
+          setPasswordType((prev) => ({ ...prev, pass: "password" }));
         } else {
           setDisplay((prev) => ({
             ...prev,
@@ -209,7 +217,7 @@ export default function Home() {
               }
             />
             <input
-              type="text"
+              type={passwordType.pass}
               placeholder="Password"
               value={userData.password}
               className="password"
@@ -218,7 +226,7 @@ export default function Home() {
               }
             />
             <input
-              type="text"
+              type={passwordType.confirmPass}
               placeholder="Comfirm Password"
               value={userData.confirmPassword}
               onChange={(e) =>
@@ -236,6 +244,9 @@ export default function Home() {
             <button className="login-btn" onClick={handleLogin}>
               Have account? Sign In
             </button>
+
+            <Icon setPasswordType={setPasswordType} classType="icon" />
+            <Icon setPasswordType={setPasswordType} classType="confirm-icon" />
           </form>
         </section>
       )}
@@ -281,7 +292,7 @@ export default function Home() {
               }
             />
             <input
-              type="text"
+              type={passwordType.pass}
               placeholder="Password"
               className="log-password"
               value={data.password}
@@ -298,6 +309,7 @@ export default function Home() {
                 Sign Up
               </button>
             )}
+            <Icon setPasswordType={setPasswordType} classType="icon" />
           </form>
         </section>
       )}
@@ -359,7 +371,6 @@ export default function Home() {
           </button>
         </section>
       )}
-      
     </main>
   );
 }
