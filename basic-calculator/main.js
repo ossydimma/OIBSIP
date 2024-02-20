@@ -13,11 +13,12 @@ del.addEventListener('click', function clean(){
  })
 
 check.addEventListener("click", function() {
-   if (input.value == "") {
-      input.value == ""
-   } else {
-   input.value = eval(input.value);
-   }
+   // if (input.value == "") {
+   //    input.value == ""
+   // } else {
+   // input.value = eval(input.value);
+   // }
+   input.value !== "" ? input.value = eval(input.value) : input.value == ""
 })
 
 clear.addEventListener("click", function() {
@@ -34,10 +35,10 @@ btn.forEach(button => {
          );
 
          e.classList.add('update');
-         
 
    }
   
+   // adding  event to the opreators
    opreator.forEach(btn =>  { 
       btn.addEventListener('click', function() {   
          if (input.value == "") {
@@ -53,12 +54,9 @@ btn.forEach(button => {
          let last = mArray.slice(-1)
          
          if (last == '+' || '-' || '*' || '/' || ".") {
-            console.log('hello')
 
             input.value == '';
-         } else {
-            console.log('no')
-         }
+         } 
          
       });
    });
