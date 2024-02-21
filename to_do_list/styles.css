@@ -58,7 +58,7 @@ li {
   cursor: pointer;
 }
 
-.hero {
+.tasks-container {
   display: flex;
   width: 90vw;
   justify-content: space-between;
@@ -80,7 +80,7 @@ li {
   border-radius: 10px;
 }
 
-#tasks-container, #completed-tasks {
+#pending-tasks, #completed-tasks {
   overflow-y: scroll;
   max-height: 55vh;
   padding: 0 15px;

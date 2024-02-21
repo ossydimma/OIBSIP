@@ -1,6 +1,6 @@
 const addTask = document.getElementById("add-task");
 const enteredTask = document.getElementById("entered-task");
-const tasksContainer = document.getElementById("tasks-container");
+const tasksContainer = document.getElementById("pending-tasks");
 const completed = document.getElementById("completed-tasks");
 
 window.addEventListener("load", () => {

@@ -10,7 +10,7 @@ interface timeType {
 }
 
 const TimeLine = ({text, store} : timeType) => {
-  // const [timeLine, setTimeLine ] = useState<arrayType[]>( store)
+  
   const timeLine = store
   return (
       <ul >
